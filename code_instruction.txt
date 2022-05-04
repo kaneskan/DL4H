@@ -1,0 +1,49 @@
+Instructions
+
+1) Download MIMIC-III via PhysioNet from the below link:
+https://physionet.org/content/mimiciii/1.4/
+
+2) Create the MIMIC-III database in PostgreSQL per below link: 
+https://mimic.mit.edu/docs/gettingstarted/local/install-mimic-locally-windows/
+
+3) Run MIMIC-III_Data_Preprocess.sql to clean the data with the following command:
+\i C:/Users/xxx/DSCA-Net/MIMIC-III_Data_Preprocess.sql
+
+If needed, we can use the following file and command to clean our tables:
+\i C:/Users/xxx/DSCA-Net/MIMIC-III_clean_table.sql
+
+4) Export the following tables to csv files:
+-lw_drug_use_400 -> lw_drug_use_400.csv
+-lw_hadm_days -> hadm_days_100.csv
+-lw_dataset -> lw_dataset_100.csv
+
+5) Run data_process_mimic.py to get dualseqs_down_100.npy and seqy_down_100.npy
+
+6) Run main.py for final prediction and evaluation metrics
+
+7) If there is a error message ('tensorflow.python.framework.ops.EagerTensor' object has no attribute 'assign'), 
+we need to fix optimizer.py from Keras 2.3.1 (C:\Users\xxx\anaconda3\envs\tf2.2\Lib\site-packages\keras) by following: 
+Adding this to Line 536             m = K.variable(m)
+and this to Line 537                v = K.variable(v)
+
+
+Dependencies
+
+-Tensorflow 2.2
+-Keras 2.3.1
+
+
+References
+
+[1] Wu Lee et al. “Predicting Prescriptions via
+DSCA-Dual Sequences with Cross Attention
+Network”. In: (2020), pp. 615–622. DOI: 10.
+1109/BIBM49941.2020.9313492.
+[2] Alistair E.W. Johnson et al. “Mimic-III, a
+freely accessible Critical Care Database”. In:
+Scientific Data 3.1 (2016). DOI: 10 . 1038 /
+sdata.2016.35.
+[3] Ary L. Goldberger et al. “Physiobank, Phys-
+ioToolkit, and PhysioNet”. In: Circulation
+101.23 (2000). DOI: 10.1161/01.cir.101.
+23.e215.
